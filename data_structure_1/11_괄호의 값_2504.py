@@ -10,7 +10,6 @@ for x in s:
 
     elif x == '[':
         stack.append('[')
-
     elif stack and x ==')':
         if stack[-1] == '(':
             stack.pop()

@@ -1,4 +1,5 @@
 import sys
+#sys.stdin = open("input.txt", "rt")
 
 def input():
     return sys.stdin.readline().rstrip()

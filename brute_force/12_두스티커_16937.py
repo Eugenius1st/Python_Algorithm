@@ -1,33 +1,38 @@
 import sys
+sys.stdin = open("input.txt", "rt")
 input = sys.stdin.readline
 
-h, w = map(int, input().split())
-n = int(input())
-sks = []
-for i in range(n):
-    sks.append(list(map(int, input().split())))
-
-def check(s1, s2):
-    # garo
-    if s1[0] + s2[0] <= w and max(s1[1], s2[1]) <= h:
-        return True
-    # sero
-    if s1[1] + s2[1] <= h and max(s1[0], s2[0]) <= w:
-        return True
+def isFeasible(r1, c1, r2, c2):
+# 주어진 두 스티커를 놓을 수 있으면 true 를 반환, 그 외 false 를 반환
+# 회전 여부가 결정된 상태 
+    if (r1+r2 <= H and max(c1,c2) <= W): return True
+    if (max(r1,r2) <= H and c1+c2 <= W): return True
     return False
-ans = 0
-for i in range(n - 1):
-    for j in range(i + 1, n):
-        s1 = sks[i]
-        s2 = sks[j]
-        area = s1[0] * s1[1] + s2[0] * s2[1]
-        for k in range(1 << 2):
-            s1 = sks[i]
-            s2 = sks[j]
-            if 1 << 1 & k:
-                s1 = list(reversed(sks[i]))
-            if 1 << 0 & k:
-                s2 = list(reversed(sks[j]))
-            if check(s1, s2):
-                ans = max(area, ans)
-print(ans)
+
+def isPossible(r1, c1, r2, c2):
+# 주어진 두 스티커를 놓을 수 있으면 true 를 반환, 그 외 false 를 반환 
+# 회전 여부는 고려되지 않은 상태
+    if (isFeasible(r1, c1, r2, c2)): return True # (안회전, 안회전) 
+    if (isFeasible(c1, r1, r2, c2)): return True # (회전, 안회전) 
+    if (isFeasible(r1, c1, c2, r2)): return True # (안회전, 회전) 
+    if (isFeasible(c1, r1, c2, r2)): return True # (회전, 회전) 
+    return False
+
+if __name__ == "__main__":
+    H, W = map(int,input().split()) 
+    N = int(input())
+    R = [0]*N 
+    C = [0]*N
+    for i in range(N): 
+        R[i], C[i] = map(int,input().split())
+    ans = 0;
+    for i in range(N):
+        for j in range(i+1,N):
+            r1 = R[i]
+            c1 = C[i] # 스티커 1 
+            r2 = R[j]
+            c2 = C[j] # 스티커 2 
+            if (isPossible(r1, c1, r2, c2)): # 놓을 수 있으면 
+                ans = max(ans, r1*c1 + r2*c2) # 답을 갱신 
+    print(ans)
+

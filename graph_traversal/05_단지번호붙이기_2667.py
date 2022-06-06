@@ -5,7 +5,6 @@ from collections import deque
 N = int(input())
 graph = []
 counts = []
-
 for _ in range(N):
   graph.append(list(map(int, input())))
 
@@ -28,7 +27,6 @@ def bfs(x,y):
                 graph[nx][ny] = 0
                 queue.append((nx, ny))
                 cnt += 1
-
     counts.append(cnt)
 
 for i in range(N):

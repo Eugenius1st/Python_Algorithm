@@ -3,30 +3,30 @@ sys.stdin = open("input.txt", "rt")
 input = sys.stdin.readline
 
 n, x = map(int, input().split())  # 블로그 일수, x일 동안 가장 많이 들어온 방문자
-arr = list(map(int, input().split()))
+blog = list(map(int, input().split()))
 
-if max(arr) == 0:
+if max(blog) == 0:
     print("SAD")
 else:
-    # prefix 만들기
-    prefix = [0]
-    for i, a in enumerate(arr):
-        prefix.append(prefix[i] + a)
+    # pre는 누적 방문자 수
+    pre = [0]
+    for i, a in enumerate(blog):
+        pre.append(pre[i] + a)
 
-    left = 0
-    right = x
-    result = 0
-    count = 0
+    lt = 0
+    rt = x
+    res = 0
+    cnt = 0
 
-    while right <= n:
-        if right - left == x:
-            if result < prefix[right] - prefix[left]:
-                result = prefix[right] - prefix[left]
-                count = 1
-            elif result == prefix[right] - prefix[left]:
-                count += 1
-            left += 1
-            right += 1
+    while rt <= n:
+        if rt - lt == x:
+            if res < pre[rt] - pre[lt]:
+                res = pre[rt] - pre[lt]
+                cnt = 1
+            elif res == pre[rt] - pre[lt]:
+                cnt += 1
+            lt += 1
+            rt += 1
 
-    print(result)
-    print(count)
+    print(res)
+    print(cnt)

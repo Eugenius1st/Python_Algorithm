@@ -1,33 +1,32 @@
 import sys
-sys.stdin = open ("input.txt", "rt")
+sys.stdin = open("input.txt", "rt")
 input = sys.stdin.readline
 
-n,k = map(int,sys.stdin.readline().split())
-my_list = list(map(int,sys.stdin.readline().split()))
+n, k = map(int,input().split())
+# k 번 삭제 가능
+myList = list(map(int,input().split()))
+lt = 0
+rt = -1
+ans = 0
+odd = 0
+temp = 0
 
-l,r,ans,odd_cnt = 0,-1,0,0
-temp_cnt = 0
-
-while True :
-    if odd_cnt <= k :
-        ans = max(ans, temp_cnt - odd_cnt)
-    #Validation
-    if odd_cnt <= k :
-        
-        #경계 조건 확인
-        r += 1
-        if r >= n :
+while True:
+    if odd <= k:
+        ans = max(ans, temp-odd) # 유효한 상태
+    if odd <= k: # 경계 조건 확인
+        rt += 1
+        if rt >= n:
             break
-        if my_list[r] % 2 == 1 :
-            odd_cnt +=1
-        temp_cnt +=1
-    # Validation
-    else :
-        if my_list[l] % 2 == 1 :
-            odd_cnt -=1
-        temp_cnt -=1
-        #경계 조건 확인
-        l+=1
-        if l > r :
+        if myList[rt] % 2 == 1:
+            odd += 1
+        temp += 1 # 유효한 상태
+    else:
+        if myList[lt] % 2 == 1:
+            odd -= 1
+        temp -= 1
+        # 경계 조건 확인
+        lt += 1
+        if lt > rt :
             break
 print(ans)
